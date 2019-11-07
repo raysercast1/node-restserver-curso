@@ -5,15 +5,21 @@ const bcrypt = require('bcrypt');
 //Expande funciones que javascript no tiene
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
+const { verifyToken, verifyAdminRole } = require('../middlewares/autenticacion');
 const app = express();
+/*Estoy indicando que verifyToken es el middleware que se va a ejecutar cuando quiera
+accesar o cuando quiera revisar esa ruta */
+app.get('/usuario', [verifyToken, verifyAdminRole], function(req, res) {
 
-app.get('/usuario', function(req, res) {
+
+
     /*hacer GET de la DB de todos los usuario con el metodo find() de mongoose y luego utilizar
     el metodo exec() para ejecutar lo encontrado por find()*/
     /*Parametro Query para indicar desde donde y hasta donde quiero la info */
     let desde = Number(req.query.desde) || 0;
     let limite = Number(req.query.limite) || 2;
     let estatus = true
+
 
     /*Filtrando los campos que seran regresados de la solicitud GET, en el .find() como segundo
     parametro ingresamos un 'string' como condicion especial definiendo campos o propiedades
@@ -43,7 +49,11 @@ app.get('/usuario', function(req, res) {
         })
 })
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verifyToken, verifyAdminRole], function(req, res) {
+
+
+
+
     // recibiendo la info del POST
     let body = req.body;
 
@@ -74,7 +84,9 @@ en mongoDB*/
 
 });
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verifyToken, verifyAdminRole], function(req, res) {
+
+
 
     let id = req.params.id;
     //Elige el content del body arg1 y arg2 las propiedades validas qe si se pueden modificar
@@ -103,7 +115,10 @@ app.put('/usuario/:id', function(req, res) {
     })
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verifyToken, verifyAdminRole], function(req, res) {
+
+
+
 
     let id = req.params.id;
     let cambiarEstado = { estado: false }
