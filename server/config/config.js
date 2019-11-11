@@ -15,6 +15,10 @@ process.env.EXPDATE_TOKEN = 60 * 60 * 24 * 30;
 /*SEED de autenticacion */
 process.env.SEED_PROD = process.env.SEED_PROD || 'seed-dev';
 
+//Client ID Google
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '98227200997-e4pqpl9lihdtgr07eqj1ciep0pksdnma.apps.googleusercontent.com';
+
 
 
 // Base de Datos
