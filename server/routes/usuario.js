@@ -89,7 +89,7 @@ app.put('/usuario/:id', [verifyToken, verifyAdminRole], function(req, res) {
 
 
     let id = req.params.id;
-    //Elige el content del body arg1 y arg2 las propiedades validas qe si se pueden modificar
+    //Elige el content del body arg1 y el arg2 las propiedades validas qe si se pueden modificar
     let arr = ['nombre', 'email', 'img', 'role', 'estado']
     let body = _.pick(req.body, arr);
 
