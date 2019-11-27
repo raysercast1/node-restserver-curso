@@ -40,17 +40,36 @@ let verifyAdminRole = (req, res, next) => {
             mensaje: 'rol no valido'
         });
     };
+};
 
+let verifyTokenImg = (req, res, next) => {
 
+    let token = req.query.token;
 
+    jwt.verify(token, process.env.SEED_PROD, (err, decoded) => {
 
+        if (err) {
+            return res.status(401).json({
+                ok: false,
+                err,
+                mensaje: 'Token no valido'
+            });
+        };
+
+        /*La idea es que todas las peticiones que pasan el jwt.verify(...) puedan acceder a la info del 
+        usuario. En el objeto encriptado viene un key con nombre usuario.
+        req.usuario es una nueva propiedad creada por mi */
+        req.usuario = decoded.usuario;
+        next();
+
+    });
 
 };
 
 
 
-
 module.exports = {
     verifyToken,
-    verifyAdminRole
+    verifyAdminRole,
+    verifyTokenImg
 }
